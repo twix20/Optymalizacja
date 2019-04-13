@@ -1,9 +1,9 @@
 def C_l(l):
-    return 1024
+    return 1024 * 30
 
 
 def B_s(s):
-    return 1024 * 5
+    return 1024 * 2
 
 
 def b_n(n):
@@ -11,13 +11,12 @@ def b_n(n):
 
 
 def k_l(l):
-    return 1
+    return 0.001
 
 
 def d_ns(n, s):
-    return 1
+    return n * s
 
 
 def a_mnsl(x_mns, m, n, s, l):
     return x_mns[m][n][s]
-

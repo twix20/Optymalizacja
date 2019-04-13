@@ -8,7 +8,7 @@ import utils
 # python -m pip install --user numpy scipy
 
 
-users = np.arange(2)
+users = np.arange(3)
 objects = np.arange(3)
 servers = np.arange(2)
 links = np.arange(users.size * (servers.size + 1))
@@ -37,7 +37,7 @@ def Q(x, y):
     G_r = G(x, y)
     H_r = H(x[0])
 
-    return U_r - G_r - H_r
+    return int(U_r) - int(G_r) - int(H_r)
 
 
 def U(y):
@@ -111,12 +111,14 @@ def f(params):
 
 
 def xElementsMustEqual0or1(params):
+
     [x, y] = extractFromParams(params)
 
     for m in users:
         for n in objects[1:]:
             for s in servers[1:]:
-                if(x[m][n][s] != 1 or x[m][n][s] != 0):
+                c = int(x[m][n][s])
+                if(c != 1 and c != 0):
                     return 1
     return 0
 
@@ -135,12 +137,14 @@ def positiveTransfer(params):
 
 def exaclyOneLocation_1(params):
     [x, y] = extractFromParams(params)
-    r = 0
     for m in users[1:]:
         for n in objects[1:]:
-            r += sum(x[m][n][s] for s in servers[1:])
+            r = int(sum(x[m][n][s] for s in servers[1:]))
 
-    return r - len(users[1:])
+            if(r != 1):
+                return 1
+
+    return 0
 
 
 def copyMustExist_2(params):
@@ -168,14 +172,18 @@ def limitedServerCapacity_3(params):
 
 
 constraints = [
-    {'type': 'eq', 'fun': xElementsMustEqual0or1},
-    {'type': 'eq', 'fun': positiveTransfer},
+    {'type': 'ineq', 'fun': xElementsMustEqual0or1},
+    {'type': 'ineq', 'fun': positiveTransfer},
 
-    {'type': 'eq', 'fun': exaclyOneLocation_1},
-    {'type': 'eq', 'fun': copyMustExist_2},
-    {'type': 'eq', 'fun': limitedServerCapacity_3},
+    {'type': 'ineq', 'fun': exaclyOneLocation_1},
+    {'type': 'ineq', 'fun': copyMustExist_2},
+    {'type': 'ineq', 'fun': limitedServerCapacity_3},
 ]
 
-res = minimize(f, ig, method="L-BFGS-B", constraints=constraints)
+res = minimize(f, ig, constraints=constraints)
+
+[x, y] = extractFromParams(res.x)
 
 print('Result', res)
+print("x", x)
+print("y", y)
