@@ -168,6 +168,45 @@ def limitedServerCapacity_3(params):
             return 1
 
     return 0
+
+
+def limitedLinkCapacity_4(params):
+    [x, y] = extractFromParams(params)
+
+    for l in links[1:]:
+        link_utilisation = sum(assumptions.a_mnsl(x, m, n, s, l) * x[m][n][s] * y[m][n][s] for m in users for n in objects[1:] for s in servers[1:])
+        link_capacity = assumptions.C_l(l)
+
+        if link_utilisation > link_capacity:
+            return 0
+
+    return 1
+
+
+def minTransferRate_5(params):
+    [x, y] = extractFromParams(params)
+
+    for m in users:
+        for n in objects[1:]:
+            for s in servers[1:]:
+                if y[m][n][s] < x[m][n][s] * assumptions.y_mn_min(m, n):
+                    return 0
+
+    return 1
+
+
+def maxTransferRate_6(params):
+    [x, y] = extractFromParams(params)
+
+    for m in users:
+        for n in objects[1:]:
+            for s in servers[1:]:
+                if y[m][n][s] > x[m][n][s] * assumptions.y_mn_max(m, n):
+                    return 0
+
+    return 1
+
+
 ###
 
 
@@ -178,6 +217,9 @@ constraints = [
     {'type': 'ineq', 'fun': exaclyOneLocation_1},
     {'type': 'ineq', 'fun': copyMustExist_2},
     {'type': 'ineq', 'fun': limitedServerCapacity_3},
+    {'type': 'ineq', 'fun': limitedLinkCapacity_4},
+    {'type': 'ineq', 'fun': minTransferRate_5},
+    {'type': 'ineq', 'fun': maxTransferRate_6},
 ]
 
 res = minimize(f, ig, constraints=constraints)
