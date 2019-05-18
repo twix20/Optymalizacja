@@ -19,7 +19,7 @@ namespace Solver
             population.Initialize();
 
             CurrentBestResult = DeepCloneResult(population.TheBestResult);
-            Console.WriteLine(CurrentBestResult.Fitness);
+            //Console.WriteLine(CurrentBestResult.Fitness);
 
             for (var i = 0; i < iterations; i++)
             {
@@ -32,7 +32,7 @@ namespace Solver
                 if (populationBest.Fitness < CurrentBestResult.Fitness)
                 {
                     CurrentBestResult = DeepCloneResult(population.TheBestResult);
-                    Console.WriteLine(CurrentBestResult.Fitness);
+                    //Console.WriteLine(CurrentBestResult.Fitness);
                 }
 
             }
@@ -40,7 +40,7 @@ namespace Solver
             return CurrentBestResult;
         }
 
-        private Result DeepCloneResult(Result toClone)
+        public Result DeepCloneResult(Result toClone)
         {
             var deepX = toClone.X.DeepClone();
             var deepY = toClone.Y.DeepClone();

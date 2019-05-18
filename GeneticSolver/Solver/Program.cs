@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Solver
 {
@@ -51,11 +52,23 @@ namespace Solver
             instance.a_mnsl[2, 1, 1, 7] = 1;
             instance.a_mnsl[2, 2, 2, 8] = 1;
 
-            var solver = new CanSolver(instance);
+            Result bestResult = null;
 
-            var result = solver.Solve(iterations, populationSize);
+            var tasks = Enumerable.Range(0, 10000).Select(i => { return Task.Run(() =>
+            {
+                var solver = new CanSolver(instance);
+                var result = solver.Solve(iterations, populationSize);
 
-            Console.WriteLine(result.ToString());
+                if (bestResult == null || result.Fitness < bestResult.Fitness)
+                {
+                    bestResult = solver.DeepCloneResult(result);
+                    Console.WriteLine(bestResult.Fitness);
+                }
+            }); });
+
+            Task.WhenAll(tasks).Wait();
+
+            Console.WriteLine(bestResult.ToString());
             Console.ReadKey();
         }
     }
