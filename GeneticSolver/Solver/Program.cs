@@ -54,7 +54,7 @@ namespace Solver
 
             Result bestResult = null;
 
-            var tasks = Enumerable.Range(0, 10000).Select(i => { return Task.Run(() =>
+            var tasks = Enumerable.Range(0, 1000).Select(i => { return Task.Run(() =>
             {
                 var solver = new CanSolver(instance);
                 var result = solver.Solve(iterations, populationSize);

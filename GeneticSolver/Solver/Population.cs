@@ -57,15 +57,14 @@ namespace Solver
             {
                 var result = Results[i];
 
-                if (result.IsValid())
+                var n = (1.1 - result.Fitness) * 100; // Reward lesser fitness
+                for (var j = 0; j < n; j++)
                 {
-                    var n = result.Fitness * 100;
-                    for (var j = 0; j < n; j++)
-                    {
-                        MattingPool.Add(result);
-                    }
+                    MattingPool.Add(result);
                 }
             }
+
+
         }
 
         public void Selection()
@@ -82,8 +81,15 @@ namespace Solver
 
                 var child = parentA.Crossover(parentB);
 
-                child.CalculateFitness();
-                newResults[i] = child;
+                if (!child.IsValid())
+                {
+                    i--;
+                }
+                else
+                {
+                    child.CalculateFitness();
+                    newResults[i] = child;
+                }
             }
 
             this.Results = newResults;
@@ -91,14 +97,14 @@ namespace Solver
 
         public void Mutate()
         {
-            foreach (var result in Results)
-            {
-                if (Random.NextDouble() > 0.1)
-                {
-                    result.Mutate();
-                    result.CalculateFitness();
-                }
-            }
+            //foreach (var result in Results)
+            //{
+            //    if (Random.NextDouble() > 0.1)
+            //    {
+            //        result.Mutate();
+            //        result.CalculateFitness();
+            //    }
+            //}
         }
     }
 }
