@@ -13,7 +13,7 @@ namespace Solver
             Instance = instance;
         }
 
-        public Result Solve(uint iterations, uint populationSize)
+        public Result Solve(int iterations, int populationSize)
         {
             var population = new Population(populationSize, Instance);
             population.Initialize();

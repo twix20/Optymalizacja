@@ -9,7 +9,7 @@ namespace Solver
     {
         public static Random Random = new Random();
 
-        public uint Size { get; }
+        public int Size { get; }
         public SolverInstance Instance { get; }
         public Result[] Results { get; private set; }
         public ICollection<Result> MattingPool { get; private set; }
@@ -19,7 +19,7 @@ namespace Solver
             .OrderByDescending(vi => vi.fitness)
             .First().result; 
 
-        public Population(uint size, SolverInstance instance)
+        public Population(int size, SolverInstance instance)
         {
             Size = size;
             Instance = instance;

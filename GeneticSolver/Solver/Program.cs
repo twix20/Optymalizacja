@@ -7,6 +7,15 @@ namespace Solver
     {
         static void Main(string[] args)
         {
+            if (args.Length != 2)
+            {
+                Console.WriteLine("Please enter iterations and populationSize, eg: .\\Solver.exe 500 200");
+                return;
+            }
+
+            var iterations = int.Parse(args[0]);
+            var populationSize = int.Parse(args[1]);
+
             var instance = new SolverInstance(3, 2, 2, 8)
             {
                 C_l = new uint[]{0, 5, 10, 1000, 1000, 1000, 1000, 1000, 1000},
@@ -44,7 +53,7 @@ namespace Solver
 
             var solver = new CanSolver(instance);
 
-            var result = solver.Solve(500, 200);
+            var result = solver.Solve(iterations, populationSize);
 
             Console.WriteLine(result.ToString());
             Console.ReadKey();
