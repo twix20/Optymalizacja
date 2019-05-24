@@ -77,9 +77,14 @@ namespace Solver
             var newX = new int[Instance.MCount, Instance.NCount + 1, Instance.SCount + 1];
             var newY = new float[Instance.MCount, Instance.NCount + 1, Instance.SCount + 1];
 
-            var halfM = Instance.MCount / 2;
-            var halfN = Instance.NCount / 2;
-            var halfS = Instance.SCount / 2;
+            // Take half DNA from parentA and the rest from parentB
+            // M/2 * N/2 * S/2   =  MNS / 8
+            // cubeRootOfTwo ^ 3 = 1/2
+            var cubeRootOfTwo = Math.Pow(2, 1.0 / 3.0);
+
+            var halfM = Instance.MCount / cubeRootOfTwo;
+            var halfN = Instance.NCount / cubeRootOfTwo;
+            var halfS = Instance.SCount / cubeRootOfTwo;
 
             foreach (var m in Instance.M)
             {
