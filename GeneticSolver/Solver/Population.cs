@@ -97,14 +97,14 @@ namespace Solver
 
         public void Mutate()
         {
-            //foreach (var result in Results)
-            //{
-            //    if (Random.NextDouble() > 0.1)
-            //    {
-            //        result.Mutate();
-            //        result.CalculateFitness();
-            //    }
-            //}
+            foreach (var result in Results)
+            {
+                if (Random.NextDouble() > 0.1)
+                {
+                    result.Mutate();
+                    result.CalculateFitness();
+                }
+            }
         }
     }
 }

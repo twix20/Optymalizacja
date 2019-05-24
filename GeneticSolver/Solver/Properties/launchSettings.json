@@ -2,7 +2,7 @@
   "profiles": {
     "Solver": {
       "commandName": "Project",
-      "commandLineArgs": "50 100"
+      "commandLineArgs": "200 100"
     }
   }
 }
