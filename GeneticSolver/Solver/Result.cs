@@ -321,32 +321,58 @@ namespace Solver
             return true;
         }
 
+        /// <summary>
+        /// Pick random link transmission speed and randomly increase/decrease it
+        /// If mutated result is not valid, Reject mutation 
+        /// </summary>
         public void Mutate()
         {
+            var usedTransitionLinks = GetUsedTransmissionLinks();
+
+            var (m, n, s) = usedTransitionLinks.ElementAt(Random.Next(usedTransitionLinks.Count()));
+
+            var maxSpeed = Instance.y_mn_max[m, n];
+            var minSpeed = Instance.y_mn_min[m, n];
+            var currentSpeed = Y[m, n, s];
+            var oldValue = currentSpeed;
+
+            if (Random.NextDouble() > 0.5)
+            {
+                var leftSpeed = maxSpeed - currentSpeed;
+                Y[m, n, s] += leftSpeed * 0.1f;
+            }
+            else
+            {
+                var leftSpeed = currentSpeed - minSpeed;
+                Y[m, n, s] -= leftSpeed * 0.1f;
+            }
+    
+
+            if (!IsValid())
+            {
+                Y[m, n, s] = oldValue;
+            }
+        }
+        List<(int, int, int)> GetUsedTransmissionLinks()
+        {
+            var valueTuples = new List<(int, int, int)>();
             foreach (var m in Instance.M)
             {
                 foreach (var n in Instance.N)
                 {
                     foreach (var s in Instance.S)
                     {
-                        if (Y[m, n, s] > 0)
+                        // ReSharper disable once CompareOfFloatsByEqualityOperator
+                        if (Y[m, n, s] != 0.0f)
                         {
-                            var x = 1 - Y[m, n, s];
-
-                            if (Random.NextDouble() > 0.5)
-                            {
-                                Y[m, n, s] += 0.1f * x;
-                            }
-                            else
-                            {
-                                Y[m, n, s] -= 0.1f * x;
-                            }
+                            valueTuples.Add((m, n, s));
                         }
                     }
                 }
             }
-        }
 
+            return valueTuples;
+        }
 
         public override string ToString()
         {

@@ -25,7 +25,7 @@ namespace Solver
             {
                 population.Evaluate();
                 population.Selection();
-                //population.Mutate();
+                population.Mutate();
 
                 var populationBest = population.TheBestResult;
 
