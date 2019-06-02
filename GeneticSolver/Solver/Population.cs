@@ -57,7 +57,7 @@ namespace Solver
             {
                 var result = Results[i];
 
-                var n = (1.1 - result.Fitness) * 100; // Reward lesser fitness
+                var n = result.Fitness * 100; // Reward higher fitness
                 for (var j = 0; j < n; j++)
                 {
                     MattingPool.Add(result);
