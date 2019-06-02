@@ -17,9 +17,8 @@ namespace Solver
             var iterations = int.Parse(args[0]);
             var populationSize = int.Parse(args[1]);
 
-            //var instance = SolverInstance.Small;
-            var instance = SolverInstance.Big;
-
+            var instance = SolverInstance.Small;
+            //var instance = SolverInstance.Big;
 
             Result bestResult = null;
 

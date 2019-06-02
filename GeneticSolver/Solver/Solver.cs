@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading;
 
 namespace Solver
 {
@@ -15,6 +17,8 @@ namespace Solver
 
         public Result Solve(int iterations, int populationSize)
         {
+            var watch = Stopwatch.StartNew();
+
             var population = new Population(populationSize, Instance);
             population.Initialize();
 
@@ -37,6 +41,11 @@ namespace Solver
 
             }
 
+            watch.Stop();
+
+            CurrentBestResult.ExecutionTime = watch.ElapsedMilliseconds;
+
+
             return CurrentBestResult;
         }
 
@@ -47,7 +56,8 @@ namespace Solver
 
             var r = new Result(toClone.Instance, deepX, deepY)
             {
-                Fitness = toClone.Fitness
+                Fitness = toClone.Fitness,
+                ExecutionTime = toClone.ExecutionTime
             };
 
             return r;

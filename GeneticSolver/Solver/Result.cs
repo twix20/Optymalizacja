@@ -64,6 +64,7 @@ namespace Solver
 
 
         public float Fitness { get; set; }
+        public long ExecutionTime { get; set; }
 
         public Result(SolverInstance instance, int[,,] x, float[,,] y)
         {
@@ -382,7 +383,7 @@ namespace Solver
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.AppendLine($"Fitness: {Fitness}");
+            sb.AppendLine($"Fitness: {Fitness} ExecutionTime: {ExecutionTime}ms");
             sb.AppendLine($"(m,n,s) -> (x,y)");
 
             foreach (var m in Instance.M)
