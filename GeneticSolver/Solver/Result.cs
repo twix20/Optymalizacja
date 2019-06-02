@@ -23,7 +23,6 @@ namespace Solver
             var newX = new int[instance.MCount, instance.NCount + 1, instance.SCount + 1];
             var newY = new float[instance.MCount, instance.NCount + 1, instance.SCount + 1];
 
-
             var freeSpaceOnServersLookup = new Dictionary<int, uint>();
             foreach (var s in instance.S)
             {
@@ -59,7 +58,7 @@ namespace Solver
             var potentialResult = new Result(instance, newX, newY);
             potentialResult.CalculateFitness();
 
-            return potentialResult.IsValid() ? potentialResult : CreateRandomInstance(instance);
+            return potentialResult;
         }
 
 

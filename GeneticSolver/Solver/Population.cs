@@ -30,7 +30,13 @@ namespace Solver
         {
             for (int i = 0; i < Size; i++)
             {
-                Results[i] = Result.CreateRandomInstance(Instance);
+                while (true)
+                {
+                    Results[i] = Result.CreateRandomInstance(Instance);
+                    var isValid = Results[i].IsValid();
+                    if (isValid)
+                        break;
+                }
             }
         }
 
